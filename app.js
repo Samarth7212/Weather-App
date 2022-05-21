@@ -1,15 +1,23 @@
-
+const geocode = require('./utils/geocode.js');
 const request = require('request');
 
-const url = 'http://api.weatherstack.com/current?access_key=3bdf7ff4f86a9e6ce82f8f40630be981&query=37.8267,-122.4233&unit=s'
-request({ url: url, json: true }, (error, response) => {
-    const data = response.body.current
-    // console.log(data)
-    // const statement = "Currently it is " + data['temperature'] + " degrees " 
-    const statement = data.weather_descriptions[0] + ". Currently it is " + data.temperature + " degrees "
-    console.log(statement)
+// const url = 'http://api.weatherstack.com/current?access_key=3bdf7ff4f86a9e6ce82f8f40630be981&query=37.8267,-122.4233&unit=s'
+// // const url = 'http://api.weatherstack.com/current?access_key=3bdf7ff4f86a9e6ce82f8f40630be981&query='
+// request({ url: url, json: true }, (error, response) => {
+//     if (error) {
+//         console.log(error)
+//     } else if (response.body.error) {
+//         console.log(response.body.error.info)
+//     } else {
+//         const data = response.body.current
+//         console.log(data.name)
+//         console.log("Latitude: " + data.lat)
+//         console.log("Longitude: " + data.lon)
+//     }
+// })
+
+geocode.geocode('Boston', (error, response) => {
+    if (error) console.log('error: ', error)
+    else console.log('Data', response)
 })
-
-
-
 
