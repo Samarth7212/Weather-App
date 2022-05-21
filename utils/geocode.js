@@ -5,11 +5,9 @@ const geocode = (address, callback) => {
     request({ url: url, json: true }, (error, response) => {
         if (error) {
             callback('Error! Unable to connect', undefined)
-            // console.log('Unable to reach')
         } else if (response.statusCode != 200) {
             console.log(response.body.message)
         } else if (response.body.features.length == 0) {
-            // console.log('No place by this name')
             callback('No place by this name', undefined)
         } else {
             const data = response.body.features[0]
@@ -18,11 +16,10 @@ const geocode = (address, callback) => {
                 longitude: data.center[0],
                 location: data.place_name,
             })
-            // console.log(data.place_name)
-            // console.log("Latitude: " + data.center[1])
-            // console.log("Longitude: " + data.center[0])
         }
     })
 }
 
-module.exports = { geocode, }
+module.exports = {
+    geocode,
+}
