@@ -7,8 +7,8 @@ try {
     if (name) {
         geocode.geocode(name, (error, { latitude, longitude, location }) => {
             if (error) return console.log('error: ', error)
-            
-            forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature, windSpeed }) => {
+
+            forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature,  windSpeed }) => {
                 // console.log('Forecast data: ', forecastData)
                 if (error) console.log('error: ', error)
                 else {
