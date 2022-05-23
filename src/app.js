@@ -3,6 +3,9 @@ const hbs = require('hbs');
 const express = require('express');
 const exp = require('constants');
 
+const geocode = require('./utils/geocode.js');
+const forecast = require('./utils/forecast.js');
+
 // console.log(__dirname)
 // console.log(path.join(__dirname, '../public'))
 
@@ -45,21 +48,32 @@ app.get('/help', (req, res) => {
 
 app.get('/weather', (req, res) => {
     if (!req.query.address) { return res.render('404', { errorMessage: 'Address missing!', title: '404', name: 'Samarth' }) }
-    res.send({
-        forecast: 'Nice',
-        location: 'Anonymous',
-        address: req.query.address,
-    })
+    const name = req.query.address
+    geocode.geocode(name, (error, { latitude, longitude, location }) => {
+        if (error) return res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
+        forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature, windSpeed }) => {
+            const forecast = 'Temperature is ' + temperature + ' degree celsius in ' + name + ' with a windspeed of ' + windSpeed
+            if (error) res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
+            else {
+                res.send({
+                    forecast,
+                    latitude,
+                    longitude,
+                })
+            }
+        })
+    }
+    )
 })
 
-app.get('/products', (req, res) => {
-    if (!req.query.search) { return res.send({ error: 'Must provide a search term' }) }
-    console.log(req.query)
-    res.send({
-        products: [],
-    })
-
-})
+//Request query example
+// app.get('/products', (req, res) => {
+//     if (!req.query.search) { return res.send({ error: 'Must provide a search term' }) }
+//     console.log(req.query)
+//     res.send({
+//         products: [],
+//     })
+// })
 
 app.get('/help/*', (req, res) => {
     res.render('helpnf', {
