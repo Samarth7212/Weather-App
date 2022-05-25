@@ -55,8 +55,8 @@ app.get('/weather', (req, res) => {
     geocode.geocode(name, (error, { latitude, longitude, location } = {}) => {
         // if (error) return res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
         if (error) return res.send({ msg: 'Error occurred' })
-        forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature, windSpeed }) => {
-            const forecast = 'Temperature is ' + temperature + ' degree celsius in ' + name + ' with a windspeed of ' + windSpeed
+        forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature, windSpeed, humidity }) => {
+            const forecast = 'Temperature is ' + temperature + ' degree celsius in ' + name + ' with a windspeed of ' + windSpeed + '. The humidity is ' + humidity + '%.'
             // if (error) res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
             if (error) res.send({ msg: 'Error occurred' })
             else {
