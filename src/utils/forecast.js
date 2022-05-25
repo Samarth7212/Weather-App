@@ -11,13 +11,14 @@ const forecast = (lat, lon, callback) => {
         }
         else {
             const { name, lat, lon } = body.location
-            const { temperature, wind_speed } = body.current
+            const { temperature, wind_speed, humidity } = body.current
             callback(undefined, {
                 latitude: lat,
                 longitude: lon,
                 location: name,
                 temperature: temperature,
                 windSpeed: wind_speed,
+                humidity: humidity,
             })
         }
     })

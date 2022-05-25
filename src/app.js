@@ -11,6 +11,8 @@ const forecast = require('./utils/forecast.js');
 
 const app = express()
 
+const port = process.env.PORT || 3000
+
 //Defining paths for express config
 const publicDirectoryPath = path.join(__dirname, '../public')
 const viewsPath = path.join(__dirname, '../templates/views')
@@ -53,8 +55,8 @@ app.get('/weather', (req, res) => {
     geocode.geocode(name, (error, { latitude, longitude, location } = {}) => {
         // if (error) return res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
         if (error) return res.send({ msg: 'Error occurred' })
-        forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature, windSpeed }) => {
-            const forecast = 'Temperature is ' + temperature + ' degree celsius in ' + name + ' with a windspeed of ' + windSpeed
+        forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature, windSpeed, humidity }) => {
+            const forecast = 'Temperature is ' + temperature + ' degree celsius in ' + name + ' with a windspeed of ' + windSpeed + '. The humidity is ' + humidity + '%.'
             // if (error) res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
             if (error) res.send({ msg: 'Error occurred' })
             else {
@@ -94,8 +96,8 @@ app.get('*', (req, res) => {
     })
 })
 
-app.listen(3000, () => {
-    console.log('Server started on port 3000')
+app.listen(port, () => {
+    console.log('Server started on port ' + port)
 })
 
 
