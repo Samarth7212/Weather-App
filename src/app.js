@@ -47,13 +47,16 @@ app.get('/help', (req, res) => {
 })
 
 app.get('/weather', (req, res) => {
-    if (!req.query.address) { return res.render('404', { errorMessage: 'Address missing!', title: '404', name: 'Samarth' }) }
+    // if (!req.query.address) { return res.render('404', { errorMessage: 'Address missing!', title: '404', name: 'Samarth' }) }
+    if (!req.query.address) { return res.send({ msg: 'Please provide some address' }) }
     const name = req.query.address
-    geocode.geocode(name, (error, { latitude, longitude, location }) => {
-        if (error) return res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
+    geocode.geocode(name, (error, { latitude, longitude, location } = {}) => {
+        // if (error) return res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
+        if (error) return res.send({ msg: 'Error occurred' })
         forecast.forecast(latitude, longitude, (error, { latitude, longitude, temperature, windSpeed }) => {
             const forecast = 'Temperature is ' + temperature + ' degree celsius in ' + name + ' with a windspeed of ' + windSpeed
-            if (error) res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
+            // if (error) res.render('404', { errorMessage: 'ERROR', title: '404', name: 'Samarth' })
+            if (error) res.send({ msg: 'Error occurred' })
             else {
                 res.send({
                     forecast,
@@ -84,7 +87,6 @@ app.get('/help/*', (req, res) => {
 })
 
 app.get('*', (req, res) => {
-    // res.send('404 Not Found')
     res.render('404', {
         title: 'Help',
         name: 'Samarth',
